@@ -7,13 +7,11 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
-import com.example.masteradmob.R
-import com.google.android.gms.ads.formats.NativeAd
-import com.google.android.gms.ads.formats.UnifiedNativeAd
-import com.google.android.gms.ads.formats.UnifiedNativeAdView
+import com.google.android.gms.ads.nativead.NativeAd
+import com.google.android.gms.ads.nativead.NativeAdView
 
 
-fun populateAdmobNativeSmall(nativeAd: UnifiedNativeAd, adView: UnifiedNativeAdView) {
+fun populateAdmobNativeSmall(nativeAd: NativeAd, adView: NativeAdView) {
     val primaryView =adView.findViewById<TextView>(R.id.primary)
     val secondaryView =adView.findViewById<TextView>(R.id.secondary)
     val tertiaryView =adView.findViewById<TextView>(R.id.primary)
@@ -80,7 +78,7 @@ fun populateAdmobNativeSmall(nativeAd: UnifiedNativeAd, adView: UnifiedNativeAdV
     adView.setNativeAd(nativeAd)
 }
 
-private fun adHasOnlyStore(nativeAd: UnifiedNativeAd): Boolean {
+private fun adHasOnlyStore(nativeAd: NativeAd): Boolean {
     val store = nativeAd.store
     val advertiser = nativeAd.advertiser
     return !TextUtils.isEmpty(store) && TextUtils.isEmpty(advertiser)

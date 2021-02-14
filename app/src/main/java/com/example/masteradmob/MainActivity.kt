@@ -126,10 +126,10 @@ class MainActivity : AppCompatActivity() {
         binding.txtLog.append("\n Admob Native small init ")
         binding.lyBannerAds.removeAllViews()
         val builder = AdLoader.Builder(this, getString(R.string.native_ad_unit_id))
-        builder.forUnifiedNativeAd { unifiedNativeAd ->
+        builder.forNativeAd { nativeAd ->
             val adView = layoutInflater
-                .inflate(R.layout.native_ads_layout_admob_small, null) as UnifiedNativeAdView
-            populateAdmobNativeSmall(unifiedNativeAd,adView)
+                .inflate(R.layout.native_ads_layout_admob_small, null) as NativeAdView
+            populateAdmobNativeSmall(nativeAd,adView)
             binding.lyBannerAds.addView(adView)
         }
         val adLoader = builder.withAdListener(object : AdListener() {
