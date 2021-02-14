@@ -64,9 +64,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getAdSize(): AdSize? {
-        val display = windowManager.defaultDisplay
         val outMetrics = DisplayMetrics()
-        display.getMetrics(outMetrics)
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+            display?.getRealMetrics(outMetrics)
+        } else {
+            @Suppress("DEPRECATION")
+            val display = windowManager.defaultDisplay
+            @Suppress("DEPRECATION")
+            display.getMetrics(outMetrics)
+        }
         val widthPixels = outMetrics.widthPixels.toFloat()
         val density = outMetrics.density
         val adWidth = (widthPixels / density).toInt()
