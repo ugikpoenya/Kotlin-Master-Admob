@@ -5,9 +5,10 @@ import android.util.DisplayMetrics
 import androidx.appcompat.app.AppCompatActivity
 import com.example.masteradmob.databinding.ActivityMainBinding
 import com.google.android.gms.ads.*
-import com.google.android.gms.ads.formats.UnifiedNativeAdView
 import com.google.android.gms.ads.nativead.NativeAdOptions
 import com.google.android.gms.ads.nativead.NativeAdView
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 
 
 class MainActivity : AppCompatActivity() {
@@ -75,28 +76,35 @@ class MainActivity : AppCompatActivity() {
     var admobInterstitial: InterstitialAd?=null
     fun initAdmobInterstitial(){
         binding.txtLog.append("\n Init Admob Interstitial ")
-        admobInterstitial = InterstitialAd(this)
-        admobInterstitial?.adUnitId= getString(R.string.interstitial_ad_unit_id)
-        admobInterstitial?.loadAd(AdRequest.Builder().build())
-        admobInterstitial?.adListener = object : AdListener() {
-            override fun onAdLoaded() {
-                super.onAdLoaded()
-                binding.txtLog.append("\n Interstitial admob loaded")
+        val adRequest = AdRequest.Builder().build()
+        InterstitialAd.load(this,getString(R.string.interstitial_ad_unit_id), adRequest, object : InterstitialAdLoadCallback() {
+            override fun onAdFailedToLoad(adError: LoadAdError) {
+                binding.txtLog.append("\n "+ adError.message);
+                admobInterstitial = null
             }
-            override fun onAdFailedToLoad(p0: LoadAdError) {
-                super.onAdFailedToLoad(p0)
-                binding.txtLog.append("\n Interstitial admob failed to load")
+            override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                binding.txtLog.append("\n Ad was loaded.");
+                admobInterstitial = interstitialAd
+                admobInterstitial?.fullScreenContentCallback = object: FullScreenContentCallback() {
+                    override fun onAdDismissedFullScreenContent() {
+                        binding.txtLog.append("\n Ad was dismissed.")
+                    }
+                    override fun onAdFailedToShowFullScreenContent(adError: AdError?) {
+                        binding.txtLog.append("\n Ad failed to show.")
+                    }
+                    override fun onAdShowedFullScreenContent() {
+                        binding.txtLog.append("\n Ad showed fullscreen content.")
+                        admobInterstitial = null
+                        initAdmobInterstitial()
+                    }
+                }
             }
-            override fun onAdClosed() {
-                super.onAdClosed()
-                admobInterstitial?.loadAd(AdRequest.Builder().build())
-            }
-        }
+        })
     }
 
     fun showAdmobInterstitial(){
-        if (admobInterstitial != null && admobInterstitial!!.isLoaded) {
-            admobInterstitial?.show()
+        if (admobInterstitial != null) {
+            admobInterstitial?.show(this)
             binding.txtLog.append("\n Interstitial ads Show")
         }else binding.txtLog.append("\n Interstitial ads not loaded")
     }
