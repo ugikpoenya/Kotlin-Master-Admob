@@ -7,6 +7,7 @@ import com.example.masteradmob.databinding.ActivityMainBinding
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.formats.UnifiedNativeAdView
 import com.google.android.gms.ads.nativead.NativeAdOptions
+import com.google.android.gms.ads.nativead.NativeAdView
 
 
 class MainActivity : AppCompatActivity() {
@@ -104,10 +105,10 @@ class MainActivity : AppCompatActivity() {
         binding.txtLog.append("\n Admob Native medium init ")
         binding.lyBannerAds.removeAllViews()
         val builder = AdLoader.Builder(this, getString(R.string.native_ad_unit_id))
-        builder.forUnifiedNativeAd { unifiedNativeAd ->
+        builder.forNativeAd { nativeAd ->
             val adView = layoutInflater
-                .inflate(R.layout.native_ads_layout_admob_medium, null) as UnifiedNativeAdView
-            populateAdmobNativeMedium(unifiedNativeAd,adView)
+                .inflate(R.layout.native_ads_layout_admob_medium, null) as NativeAdView
+            populateAdmobNativeMedium(nativeAd,adView)
             binding.lyBannerAds.addView(adView)
         }
         val videoOptions = VideoOptions.Builder().setStartMuted(false).build()

@@ -5,18 +5,16 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
-import com.example.masteradmob.R
-import com.google.android.gms.ads.formats.MediaView
-import com.google.android.gms.ads.formats.UnifiedNativeAd
-import com.google.android.gms.ads.formats.UnifiedNativeAdView
+import com.google.android.gms.ads.nativead.NativeAd
+import com.google.android.gms.ads.nativead.NativeAdView
 
-fun populateAdmobNativeMedium(nativeAd: UnifiedNativeAd, adView: UnifiedNativeAdView) {
+fun populateAdmobNativeMedium(nativeAd: NativeAd, adView: NativeAdView) {
     // You must call destroy on old ads when you are done with them,
     // otherwise you will have a memory leak.
 
     // Set the media view. Media content will be automatically populated in the media view once
     // adView.setNativeAd() is called.
-    adView.mediaView = adView.findViewById<MediaView>(R.id.ad_media)
+    //adView.mediaView = adView.findViewById<MediaView>(R.id.ad_media)
 
     // Set other ad assets.
     adView.headlineView = adView.findViewById(R.id.ad_headline)
